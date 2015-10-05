@@ -23,7 +23,7 @@
     <path refid="compile.classpath"/>
     <path location="src"/>
   </path>
-  
+
   <fileset id="class.files" dir="src">
      <include name="**/*.class"/>
   </fileset>
@@ -31,21 +31,21 @@
   <fileset id="files.for.jar" dir="src">
     <exclude name="**/*.java"/>
   </fileset>
-  
+
   <fileset id="test.classes" dir="src">
     <include name="**/*Test.java"/>
   </fileset>
 
   <echo>
     Application: ${app.name} ${app.version}
-    Build File : ${ant.file} 
+    Build File : ${ant.file}
     Run Date   : ${build.time}
     Run by     : ${user.name}
     Build Dir  : ${build}
     Base Dir   : ${basedir}
     Java Home  : ${java.home}
   </echo>
-    
+
   <echo message="Create build directory, and its subdirectories."/>
   <mkdir dir="${build}/dist"/>
 
@@ -58,15 +58,15 @@
      </delete>
      <mkdir dir="${build}/dist"/>
    </target>
-  
+
    <target name="compile" description="Compile source files and place beside source.">
-     <javac srcdir="src">   
+     <javac srcdir="src">
        <classpath refid="compile.classpath"/>
      </javac>
-   </target> 
-  
+   </target>
+
    <target name="test" description="Run all JUnit tests." depends="compile">
-     <junit haltonfailure="false"> 
+     <junit haltonfailure="true"> 
        <classpath refid="run.classpath"/>
        <batchtest>
          <fileset refid="test.classes"/>
@@ -74,7 +74,7 @@
        <formatter type="brief" usefile="no"/>
      </junit>
    </target>
-  
+
    <target name="jar" description="Create a jar file for distribution." depends="compile">
       <copy todir="${build}/dist">
         <fileset dir="libs">
@@ -84,28 +84,28 @@
     <jar destfile="${build}/dist/${distro-name}.jar" manifest="MANIFEST.MF" duplicate="preserve">
       <fileset refid="files.for.jar"/>
       <manifest>
-        <attribute name="Specification-Version" value="${app.version}"/> 
+        <attribute name="Specification-Version" value="${app.version}"/>
         <attribute name="Specification-Title" value="${app.name}" />
-        <attribute name="Implementation-Version" value="${app.version}"/> 
+        <attribute name="Implementation-Version" value="${app.version}"/>
         <attribute name="Implementation-Title" value="${app.name}" />
         <!-- TODO fix class path: attribute name="Class-Path" value="" /-->
       </manifest>
     </jar>
    </target>
-  
+
   <target name="distro-binary" description="Create zip file with executable jar." depends="jar">
     <zip destfile="${build}/dist/${distro-name}-binary.zip" duplicate="preserve">
       <zipfileset dir="${build}/dist/" includes="${distro-name}.jar"/>
     </zip>
   </target>
-  
+
   <target name="distro-source" description="Create zip file with project source code.">
     <zip destfile="${build}/dist/${distro-name}-src.zip" duplicate="preserve" >
       <zipfileset dir="." excludes=".classpath, .project .idea"/>
     </zip>
   </target>
-  
-  <target name="all" description="Create all build artifacts." 
+
+  <target name="all" description="Create all build artifacts."
              depends="clean, compile, test, jar, distro-binary, distro-source">
     <echo>Finished creating all build artifacts.</echo>
   </target>
