@@ -42,10 +42,10 @@ public class Main extends Application {
     /**
      * @param args Command line arguments
      */
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         logInfo("Application has started");
         Application.launch(Main.class, args);
-    }*/
+    }
 
     public static void exit() {
         logInfo("Application is exiting");
@@ -60,11 +60,11 @@ public class Main extends Application {
         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, in, (Object) null);
         System.exit(-1);
     }
-
+/*
     public static void logSevereAndExit(Exception ex) {
         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         System.exit(-1);
-    }
+    }*/
 
     @Override
     public void start(Stage primaryStage) throws Exception {
